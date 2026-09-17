@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101315"><meta name="description" content="Tariff Bash : renvoyez la balle, pas la facture. Carney contre Trump. Deux têtes, une balle, sept points pour gagner. Un Pong arcade à jouer seul ou à deux.">
+  <title>Tariff Bash — Carney vs Trump</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23101315'/%3E%3Cpath d='M17 16v32M47 16v32' stroke='%23c5ff73' stroke-width='6'/%3E%3Ccircle cx='32' cy='32' r='5' fill='white'/%3E%3C/svg%3E">
+  <script>try{if(sessionStorage.getItem('tariff-bash.intro.seen')!=='1')document.documentElement.classList.add('intro-active')}catch{document.documentElement.classList.add('intro-active')}</script>
+  <link rel="stylesheet" href="style.css"><script src="intro.js" defer></script><script src="game.js" defer></script>
+</head>
+<body>
+<section id="intro" class="intro-screen" role="dialog" aria-modal="true" aria-labelledby="intro-title" aria-describedby="intro-slogan" hidden>
+  <div class="intro-poster">
+    <h1 id="intro-title" class="sr-only">Tariff Bash — Carney vs Trump</h1>
+    <p id="intro-slogan" class="sr-only">Renvoyez la balle. Pas la facture.</p>
+    <img id="intro-art" class="intro-art" src="assets/tariff-bash-intro.png" width="1024" height="1536" alt="" fetchpriority="high" decoding="async">
+    <span class="intro-ball" aria-hidden="true"></span>
+    <button id="intro-start" class="intro-start" type="button"><span class="sr-only">START — Accéder au jeu</span></button>
+  </div>
+</section>
+<main class="shell" id="game-shell">
+  <header class="masthead"><a class="brand" href="./" aria-label="Tariff Bash, accueil"><span class="brand-symbol" aria-hidden="true">Ⅱ<span>●</span>Ⅱ</span>TARIFF BASH<span class="edition">ARCADE / 01</span></a><span class="top-note">LE FACE-À-FACE PREND UNE AUTRE DIMENSION.</span><button id="sound" class="icon-button" aria-label="Activer le son" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path id="sound-waves" d="m16 9 6 6m0-6-6 6"/></svg></button></header>
+  <section class="title-row"><div><div class="eyebrow"><span class="tiny-line"></span> LE SOMMET ARCADE</div><h1>La balle est dans<br><span>leur camp.</span></h1></div><p>Deux têtes. Une balle.<br>Le premier à <strong>7 points</strong> l’emporte.</p></section>
+  <section class="game" aria-label="Jeu Pong Carney contre Trump">
+    <div class="scoreboard"><div class="player player-left"><div class="avatar mint"><img id="carney-avatar" src="assets/carney.png" alt=""></div><div><span class="country">CANADA <span>CA</span></span><h2>Mark Carney</h2><span class="player-role" id="left-role">VOUS</span></div></div><div class="scores" aria-label="Score"><span id="score-left">0</span><div class="score-center"><span>VS</span><span id="match-state">7 POINTS</span></div><span id="score-right">0</span></div><div class="player player-right"><div><span class="country"><span>US</span> ÉTATS-UNIS</span><h2>Donald Trump</h2><span class="player-role" id="right-role">ORDINATEUR</span></div><div class="avatar coral"><img id="trump-avatar" src="assets/trump.png" alt=""></div></div></div>
+    <div class="arena" id="arena" tabindex="0" aria-label="Terrain de Pong. Déplacez Carney avec W et S, Z et S, les flèches, la souris ou le doigt. Espace pour mettre en pause.">
+      <div class="court-mid" aria-hidden="true"></div><div class="court-circle" aria-hidden="true"></div><div class="court-label court-label-left" aria-hidden="true">CA</div><div class="court-label court-label-right" aria-hidden="true">US</div>
+      <canvas id="effects" aria-hidden="true"></canvas>
+      <div class="paddle left-paddle" id="left-paddle"><img id="carney-face" src="assets/carney.png" alt="Tête de Mark Carney"></div><div class="paddle right-paddle" id="right-paddle"><img id="trump-face" src="assets/trump.png" alt="Tête de Donald Trump"></div>
+      <div class="rally-counter" id="rally-counter" hidden>ÉCHANGE <span id="rally">0</span></div>
+      <div id="announcement" class="announcement" aria-live="polite"></div>
+      <div class="overlay" id="overlay"><div class="start-panel"><div class="victory-stage" id="victory-stage" hidden><div class="dance-sprite" id="victory-sprite" role="img"><img class="dance-head" id="victory-head" alt="" aria-hidden="true" draggable="false"></div></div><div class="panel-content"><span class="panel-kicker" id="panel-kicker">PLACE AU DUEL</span><h3 id="panel-title">Moins de discours.<br>Plus de rebonds.</h3><p id="panel-copy">Vous jouez Carney. Faites parler les réflexes.</p><label class="computer-choice" id="computer-choice" for="computer">Ordinateur <select id="computer"><option value="1" selected>Donald Trump</option><option value="0">Mark Carney</option></select></label><button class="play-button" id="play">Lancer le match <span aria-hidden="true">↗</span></button><span class="start-tip" id="start-tip">ou appuyez sur Entrée</span></div></div></div>
+      <span class="court-corner top-left" aria-hidden="true"></span><span class="court-corner bottom-right" aria-hidden="true"></span>
+    </div>
+    <div class="control-bar"><div class="settings"><div class="mode-switch" role="group" aria-label="Mode de jeu"><button class="selected" id="solo" aria-pressed="true">Solo</button><button id="duo" aria-pressed="false">À deux</button></div><label class="difficulty-label" for="difficulty">Niveau <select id="difficulty"><option value="easy">Détente</option><option value="normal" selected>Classique</option><option value="hard">Intense</option></select></label></div><div class="match-controls"><button id="pause" class="text-button" disabled><span aria-hidden="true">Ⅱ</span> Pause</button><button id="restart" class="text-button"><span aria-hidden="true">↻</span> Rejouer</button></div></div>
+  </section>
+  <footer><div class="instructions" id="instructions"><span class="instruction-label">À VOUS DE JOUER</span><span><kbd>↑</kbd><kbd>↓</kbd> ou <kbd>W</kbd><kbd>S</kbd></span><span class="divider"></span><span>Souris ou glisser au doigt</span></div><span class="footer-note">100 % arcade. 0 % diplomatie.</span></footer>
+  <section class="hall" aria-labelledby="hall-title">
+    <header class="hall-header"><div class="hall-heading"><span class="hall-fire" aria-hidden="true"><span>🔥</span><span>🔥</span><span>🔥</span></span><div><span class="hall-kicker">LES 10 DERNIERS MATCHS</span><h2 id="hall-title">Hall of Fame</h2></div></div><span class="hall-count" id="hall-count">0 / 10</span></header>
+    <p class="hall-note" id="hall-note">Résultats conservés sur ce navigateur · Du plus récent au plus ancien.</p>
+    <p class="hall-empty" id="hall-empty">Le premier duel attend sa légende. Terminez un match pour inscrire son score ici.</p>
+    <ol class="hall-list" id="hall-list" aria-label="Derniers résultats"></ol>
+    <span class="sr-only" id="hall-update" aria-live="polite"></span>
+  </section>
+  <p class="credits">Jeu humoristique indépendant · Portraits illustrés · Sans affiliation avec les personnalités représentées.</p>
+</main>
+</body></html>
