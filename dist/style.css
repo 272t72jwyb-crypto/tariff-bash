@@ -130,3 +130,52 @@ html.intro-active,html.intro-active body{overflow:hidden}
 .dance-sprite.is-dancing[data-character="trump"]{animation:none}
 .dance-sprite.is-dancing[data-character="trump"]::before{animation:trump-dance-body 1.6s steps(1,end) 3}
 @keyframes trump-dance-body{0%{background-position:-1.564225% -2.740155%}6.25%{background-position:33.106367% -2.740155%}12.5%{background-position:67.776960% -2.740155%}18.75%{background-position:102.447552% -2.740155%}25%{background-position:-1.564225% 31.378358%}31.25%{background-position:33.106367% 31.378358%}37.5%{background-position:67.776960% 31.378358%}43.75%{background-position:102.447552% 31.378358%}50%{background-position:-1.564225% 63.951049%}56.25%{background-position:33.106367% 63.951049%}62.5%{background-position:67.776960% 63.951049%}68.75%{background-position:102.447552% 63.951049%}75%{background-position:-1.564225% 96.634155%}81.25%{background-position:33.106367% 96.634155%}87.5%{background-position:67.776960% 96.634155%}93.75%{background-position:102.447552% 96.634155%}100%{background-position:-1.564225% -2.740155%}}
+
+/* Desktop court choice follows available browser space, independently of screen orientation. */
+.orientation-controls{display:none}
+.desktop-court .shell{max-width:1600px;padding-left:clamp(12px,3vw,48px);padding-right:clamp(12px,3vw,48px)}
+.desktop-court .masthead{height:64px}
+.desktop-court .title-row{display:none}
+.desktop-court .orientation-controls{display:flex;align-items:center;justify-content:center;gap:6px;min-height:54px;flex-wrap:wrap;padding:5px 0}
+.orientation-controls>span{font-size:14px;color:var(--muted);margin-right:10px}
+.orientation-controls button{min-height:40px;padding:8px 16px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--text);font-size:14px}
+.orientation-controls button[aria-pressed="true"]{background:var(--mint);border-color:var(--mint);color:#1d2916}
+.desktop-court .game{width:var(--court-width,100%);max-width:100%;margin:0 auto}
+.desktop-court .arena{height:var(--court-height,430px);min-height:0;max-height:none}
+.desktop-court .scoreboard{height:80px;padding:10px 16px}
+.desktop-court .scores{min-width:100px;gap:10px}
+.desktop-court .scores>span{font-size:48px}
+.desktop-court .control-bar{padding:8px 12px;gap:8px 16px;flex-wrap:wrap}
+.desktop-court .settings{width:auto;flex:1;gap:12px;justify-content:space-between}
+.desktop-court .match-controls{width:auto;border:0;padding:0;gap:16px}
+.desktop-court .mode-switch button,.desktop-court .text-button,.desktop-court select{min-height:40px;font-size:14px}
+.desktop-court .difficulty-label{font-size:14px}
+.desktop-court footer{display:flex;max-width:var(--court-width,100%);margin:0 auto;padding:10px 0}
+.desktop-court .instructions{flex-wrap:wrap;gap:6px 12px;font-size:14px}
+.desktop-court .instructions>span{white-space:normal}
+.desktop-court .footer-note{display:none}
+.desktop-court .start-panel{max-width:380px;padding:14px}
+.desktop-court .start-panel h3{font-size:36px;margin:8px 0}
+.desktop-court .start-panel p{display:block;font-size:14px;margin-bottom:12px}
+.desktop-court .computer-choice{display:flex;margin:0 auto 12px}
+.desktop-court .play-button{min-height:44px;padding:12px 18px}
+.desktop-court[data-court="portrait"] .avatar{display:none}
+.desktop-court[data-court="portrait"] .player{flex:1}
+.desktop-court[data-court="portrait"] h2{font-size:14px}
+.desktop-court[data-court="portrait"] .country{font-size:10px;letter-spacing:1px}
+.desktop-court[data-court="portrait"] .country span{display:none}
+.desktop-court[data-court="portrait"] .player-role{font-size:10px}
+.desktop-court[data-court="portrait"] .settings,.desktop-court[data-court="portrait"] .match-controls{width:100%;flex-basis:100%;justify-content:space-between}
+.desktop-court[data-court="portrait"] .match-controls{border-top:1px solid var(--line)}
+.desktop-court .celebrating .start-panel{display:grid;max-width:850px;grid-template-columns:minmax(100px,.8fr) minmax(0,1.2fr);padding:12px 20px;gap:14px}
+.desktop-court .celebrating .victory-stage{height:clamp(110px,calc(var(--court-height) * .65),290px)}
+.desktop-court .celebrating .computer-choice{display:none}
+.desktop-court[data-court="portrait"] .celebrating .start-panel{grid-template-columns:1fr;max-width:430px;padding:10px;gap:6px}
+.desktop-court[data-court="portrait"] .celebrating .victory-stage{height:clamp(120px,calc(var(--court-height) * .42),270px)}
+.desktop-court[data-court="portrait"] .celebrating h3{font-size:28px;margin:4px 0}
+.desktop-court[data-court="portrait"] .celebrating h3 br{display:none}
+.desktop-court[data-court="portrait"] .celebrating .victory-quip{font-size:14px;margin-top:6px}
+.desktop-court .celebrating .panel-kicker{display:none}
+.desktop-court[data-compact-court="true"] .start-panel .panel-kicker,.desktop-court[data-compact-court="true"] .start-panel .start-tip,.desktop-court[data-compact-court="true"] .start-panel p{display:none}
+.desktop-court[data-compact-court="true"] .start-panel h3{font-size:26px}
+@media(max-width:600px){.desktop-court .edition{display:none}.desktop-court .scoreboard{padding:8px}.desktop-court .avatar{display:none}.desktop-court .country{font-size:10px;letter-spacing:0}.desktop-court h2{font-size:13px}.desktop-court .country span{display:none}.desktop-court .player-role{font-size:10px}.desktop-court .orientation-controls{gap:4px}.orientation-controls>span{margin-right:4px}.orientation-controls button{padding:8px 10px}.desktop-court .settings,.desktop-court .match-controls{width:100%;flex-basis:100%;justify-content:space-between}}

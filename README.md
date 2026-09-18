@@ -3,7 +3,7 @@
 Renvoyez la balle. Pas la facture.
 
 Jeu Pong statique en HTML, CSS et JavaScript : Carney contre Trump, solo ou duo,
-portrait/paysage, dommages progressifs et danses de victoire. L'intro apparaît
+portrait/paysage (choix Auto / Portrait / Paysage sur ordinateur), dommages progressifs et danses de victoire. L'intro apparaît
 une fois par session d'onglet. Les dix derniers matchs sont stockés localement
 dans le navigateur. Aucun serveur applicatif, base de données, PHP, Node.js ou
 étape de compilation n'est nécessaire pour l'hébergement.
@@ -127,3 +127,7 @@ navigateur ou sur une autre origine. Le Hall of Fame reste propre au navigateur.
 L'intro est mémorisée dans `sessionStorage` après START ; un rechargement dans le
 même onglet ouvre directement le jeu. Un nouvel onglet indépendant ou une nouvelle
 session permet de revoir l'introduction.
+
+Sur ordinateur, le terrain suit la taille de la fenêtre. Le choix d’orientation
+est mémorisé dans le navigateur. Un changement d’axe pendant le match le met en
+pause pour permettre de reprendre ses commandes sans perdre le score.

@@ -7,6 +7,31 @@ const state = {status:'ready',mode:'solo',computer:1,recorded:false,level:'norma
 const keys = new Set(), pointers = new Map();
 let lastTime = 0, audioContext;
 let portrait = false;
+const desktopPointer=window.matchMedia('(any-pointer: fine)');
+const windowPortrait=window.matchMedia('(orientation: portrait)');
+const orientationButtons=[...document.querySelectorAll('[data-orientation]')];
+let courtPreference='auto';
+try{const saved=localStorage.getItem('tariff-bash.orientation');if(['auto','portrait','landscape'].includes(saved))courtPreference=saved;}catch{}
+function effectivePortrait(){return desktopPointer.matches&&courtPreference!=='auto'?courtPreference==='portrait':windowPortrait.matches;}
+function fitDesktopCourt(nextPortrait){
+  const root=document.documentElement;
+  root.classList.toggle('desktop-court',desktopPointer.matches);
+  root.dataset.court=nextPortrait?'portrait':'landscape';
+  orientationButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.orientation===courtPreference)));
+  if(!desktopPointer.matches)return;
+  const shell=$('game-shell'),game=$('game'),style=getComputedStyle(shell);
+  const availableWidth=Math.max(1,shell.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight));
+  const viewportHeight=document.documentElement.clientHeight||window.innerHeight;
+  const width=Math.floor(Math.min(availableWidth,nextPortrait?Math.max(300,(viewportHeight-300)*.68):availableWidth));
+  root.style.setProperty('--court-width',width+'px');
+  // Use document coordinates so scrolling never changes the chosen court size.
+  const top=arena.getBoundingClientRect().top+window.scrollY;
+  const controls=game.querySelector('.control-bar').getBoundingClientRect().height;
+  const availableHeight=viewportHeight-top-controls-18;
+  const height=Math.round(Math.max(nextPortrait?320:220,Math.min(availableHeight,nextPortrait?width*1.6:width/1.55)));
+  root.style.setProperty('--court-height',height+'px');
+  root.dataset.compactCourt=String(height<300);
+}
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
 const names=['Carney','Trump'];
@@ -141,9 +166,10 @@ function updateRoles(){
 }
 
 function resize(){
+  const nextPortrait=effectivePortrait();
+  if(nextPortrait!==portrait){keys.clear();pointers.clear();state.target=null;if(['playing','serving'].includes(state.status))pause();}
+  fitDesktopCourt(nextPortrait);
   const rect=arena.getBoundingClientRect();
-  const nextPortrait=window.matchMedia('(orientation: portrait)').matches;
-  if(nextPortrait!==portrait){keys.clear();pointers.clear();state.target=null;}
   portrait=nextPortrait;
   arena.classList.toggle('portrait',portrait);
   // Keep physics in court coordinates: Carney at the start, Trump at the end.
@@ -160,8 +186,9 @@ function resize(){
 function updateInstructions(){
   const direction=portrait?'de gauche à droite':'de haut en bas';
   const camps=portrait?'Carney en bas · Trump en haut':'Carney à gauche · Trump à droite';
+  const inputHint=desktopPointer.matches?(portrait?'← → ou A / D · Souris':'↑ ↓ ou W / S · Souris'):'Glissez '+direction;
   $('instructions').innerHTML='<span class="instruction-label">'+(portrait?'PORTRAIT':'PAYSAGE')+'</span><span>'+
-    (state.mode==='solo'?'Vous : '+names[humanSide()]+' · Glissez '+direction:'Un doigt par camp · '+camps)+'</span>';
+    (state.mode==='solo'?'Vous : '+names[humanSide()]+' · '+inputHint:(desktopPointer.matches?(portrait?'A / D et ← →':'W / S et ↑ ↓'):'Un doigt par camp')+' · '+camps)+'</span>';
   arena.setAttribute('aria-label','Terrain de Pong. '+camps+'. Glissez '+direction+'. '+
     (portrait?'Clavier : A et D pour Carney, flèches gauche et droite pour Trump.':'Clavier : W et S pour Carney, flèches haut et bas pour Trump.')+' En solo, les flèches contrôlent '+names[humanSide()]+'. Espace pour la pause.');
   $('start-tip').textContent=portrait?'Glissez de gauche à droite':'Glissez de haut en bas';
@@ -259,6 +286,10 @@ function frame(time){const dt=Math.min((time-lastTime)/1000||0,.035);lastTime=ti
     state.particles=state.particles.filter(p=>{p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;return p.life>0});
   }draw();requestAnimationFrame(frame);
 }
+orientationButtons.forEach(button=>button.addEventListener('click',()=>{courtPreference=button.dataset.orientation;try{localStorage.setItem('tariff-bash.orientation',courtPreference);}catch{}resize();}));
+window.addEventListener('resize',resize);
+desktopPointer.addEventListener('change',resize);
+windowPortrait.addEventListener('change',resize);
 $('computer').addEventListener('change',e=>{if(!['ready','over'].includes(state.status))return;const side=Number(e.target.value);if(![0,1].includes(side))return;state.computer=side;setMode(state.mode);});
 $('play').addEventListener('click',start);$('pause').addEventListener('click',pause);
 $('restart').addEventListener('click',()=>{state.status='ready';reset();setMode(state.mode);$('announcement').textContent='';});
