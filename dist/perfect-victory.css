@@ -1,0 +1,15 @@
+/* Background-free sprite and the approved perfect-match celebration. */
+.celebrating .victory-stage{background:transparent}
+.overlay.perfect-victory{background:radial-gradient(ellipse at 30% 60%,#20362a 0%,#151a1c 65%);backdrop-filter:none}
+.overlay.perfect-victory[data-perfect-winner="trump"]{background:radial-gradient(ellipse at 30% 60%,#382b27 0%,#151a1c 65%)}
+.perfect-fireworks{z-index:0;pointer-events:none}
+.perfect-fireworks[hidden]{display:none}
+.perfect-victory .start-panel{position:relative;z-index:1}
+.perfect-victory .panel-content{position:relative;text-shadow:0 2px 8px #101315}
+.perfect-victory .perfect-score{display:block;color:var(--mint);font-size:1.25em;margin-top:8px;letter-spacing:4px}
+.perfect-victory[data-perfect-winner="trump"] .perfect-score,.perfect-victory[data-perfect-winner="trump"] .victory-quip{color:var(--coral)}
+.perfect-animating .dance-sprite.is-dancing,.perfect-animating .dance-sprite.is-dancing .dance-head,.perfect-animating .dance-sprite.is-dancing[data-character="trump"]::before,.perfect-animating .dance-sprite.is-dancing[data-character="trump"] .dance-head{animation-iteration-count:infinite}
+@media(orientation:landscape) and (max-height:600px){.perfect-victory .perfect-score{display:inline;font-size:1em;margin-left:12px;letter-spacing:1px}}
+@media(prefers-reduced-motion:reduce){.perfect-fireworks{display:none}.perfect-victory .dance-sprite,.perfect-victory .dance-head,.perfect-victory .dance-sprite::before{animation:none!important}}
+@media(orientation:portrait) and (max-height:740px){.perfect-victory .perfect-score{display:inline;font-size:1em;margin-left:10px;letter-spacing:1px}}
+.desktop-court[data-court="portrait"] .perfect-victory .perfect-score{display:inline;font-size:1em;margin-left:10px;letter-spacing:1px}

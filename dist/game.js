@@ -37,11 +37,12 @@ const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
 const names=['Carney','Trump'];
 const humanSide=()=>1-state.computer;
 const victoryDances=[
-  {src:'assets/carney-victory-body.png',head:'assets/carney.png',character:'carney',ratio:1,ready:false,label:'Mark Carney danse en cartoon, bras levés et index pointés vers le ciel.'},
+  {src:'assets/carney-victory-body-transparent.png',head:'assets/carney.png',character:'carney',ratio:1,ready:false,label:'Mark Carney danse en cartoon, bras levés et index pointés vers le ciel.'},
   {src:'assets/trump-victory-body-v2.png',rows:4,head:'assets/trump.png',character:'trump',ratio:1,ready:false,label:'Donald Trump danse en cartoon, en balançant les épaules et en alternant les mouvements de poings.'}
 ];
 let danceWinner=null;
 function stopVictoryDance(){
+  window.TariffPerfectVictory?.stop();
   danceWinner=null;$('overlay').classList.remove('celebrating');$('victory-stage').hidden=true;$('victory-sprite').classList.remove('is-dancing');
 }
 function fitVictoryDance(){
@@ -216,6 +217,7 @@ function goal(side){
     state.status='over';recordMatch();$('announcement').textContent='';
     const title=side===0?'Carney remporte<br> le duel.<span class="victory-quip">'+pickTariffLine('victory')+'</span>':'Trump remporte<br> le duel.<span class="victory-quip trump-tax">'+pickTariffLine('trump')+'</span>';
     showPanel('FIN DU SOMMET',title,state.score[0]+' — '+state.score[1]+'. Une revanche ?','Prendre sa revanche');showVictoryDance(side);controls();
+    window.TariffPerfectVictory?.start({winner:side,score:state.score,enabled:state.sound,context:audioContext});
   }else{serve(POINT_MESSAGE_SECONDS+READY_SECONDS);pointAnnouncement(side);}
 }
 
@@ -294,7 +296,7 @@ $('computer').addEventListener('change',e=>{if(!['ready','over'].includes(state.
 $('play').addEventListener('click',start);$('pause').addEventListener('click',pause);
 $('restart').addEventListener('click',()=>{state.status='ready';reset();setMode(state.mode);$('announcement').textContent='';});
 $('solo').addEventListener('click',()=>setMode('solo'));$('duo').addEventListener('click',()=>setMode('duo'));$('difficulty').addEventListener('change',e=>state.level=e.target.value);
-$('sound').addEventListener('click',()=>{state.sound=!state.sound;$('sound').setAttribute('aria-label',state.sound?'Couper le son':'Activer le son');$('sound').setAttribute('aria-pressed',String(state.sound));$('sound-waves').setAttribute('d',state.sound?'M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14':'m16 9 6 6m0-6-6 6');tone(550,.1)});
+$('sound').addEventListener('click',()=>{state.sound=!state.sound;$('sound').setAttribute('aria-label',state.sound?'Couper le son':'Activer le son');$('sound').setAttribute('aria-pressed',String(state.sound));$('sound-waves').setAttribute('d',state.sound?'M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14':'m16 9 6 6m0-6-6 6');tone(550,.1);window.TariffPerfectVictory?.setSound(state.sound,audioContext)});
 document.addEventListener('keydown',e=>{if(document.documentElement.classList.contains('intro-active'))return;if(e.target instanceof HTMLSelectElement)return;const k=e.key.toLowerCase();if(['arrowup','arrowdown','arrowleft','arrowright','w','s','z','a','q','d',' '].includes(k)){if(e.target instanceof HTMLButtonElement&&k===' ')return;e.preventDefault();if(k===' '){if(!e.repeat)pause();}else keys.add(k);}if(k==='enter'&&!(e.target instanceof HTMLButtonElement)&&['ready','paused','over'].includes(state.status)){e.preventDefault();start();}});
 document.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 function point(e){const r=arena.getBoundingClientRect();return{

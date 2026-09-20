@@ -1,0 +1,16 @@
+Tariff Bash — fanfares de victoire parfaite, versions validées.
+
+Ô Canada : mélodie de Calixa Lavallée.
+The Star-Spangled Banner : mélodie de John Stafford Smith.
+Arrangements instrumentaux réalisés pour Tariff Bash : trompettes,
+trombones, cors, tuba, cuivres d'ensemble, timbales et percussions.
+Extraits de 18 secondes, MP3 stéréo 192 kbit/s.
+
+Banque instrumentale : TimGM6mb, Tim Brechbill (2004), David Bolton (2010).
+Licence de la banque : GNU GPL version 2.
+Source : https://deb.debian.org/debian/pool/main/t/timgm6mb-soundfont/
+Rendu : TinySoundFont / tinysoundfont Python (licence MIT).
+https://pypi.org/project/tinysoundfont/
+
+Les arrangements validés sont fournis avec leurs sources reproductibles
+séparées (tariff-bash-fanfare-sources.zip), incluant la banque et sa licence.
